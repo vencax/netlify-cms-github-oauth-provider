@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({silent: true})
 const express = require('express')
 const simpleOauthModule = require('simple-oauth2')
 const randomstring = require('randomstring')
