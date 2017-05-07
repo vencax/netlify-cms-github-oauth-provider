@@ -20,7 +20,7 @@ const oauth2 = simpleOauthModule.create({
 // Authorization uri definition
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
   redirect_uri: process.env.REDIRECT_URL,
-  scope: process.env.SCOPES || 'notifications',
+  scope: process.env.SCOPES || 'repo,user',
   state: randomstring.generate(32),
 })
 
