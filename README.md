@@ -30,3 +30,5 @@ REDIRECT_URL=https://your.server.running.this.code/callback
 
 For using with github, you need to setup OAut application on github site.
 For details see [https://www.netlify.com/docs/authentication-providers/](https://www.netlify.com/docs/authentication-providers/).
+
+It's also necessary to set up the `base_url` in your Netlify CMS `backend` configuration. See [example](https://github.com/pirati-web/admin/blob/0878c1f2f0b16dee5ed6bab6228bbebd7d540247/config.yml#L5).
