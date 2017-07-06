@@ -44,7 +44,7 @@ Include this if you  need your callback to be different from what is supplied in
 **Git Hostname (Optional):**
 This is only necessary for use with Github Enterprise.
 
-###CMS Config
+### CMS Config
 You also need to add `base_url` to the backend section of your netlify-cms's config file. `base_url` is the live URL of this repo with no trailing slashes.
 
 ```
