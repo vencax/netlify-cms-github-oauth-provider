@@ -1,21 +1,22 @@
-require('dotenv').config({silent: true})
-const express = require('express')
-const simpleOauthModule = require('simple-oauth2')
-const randomstring = require('randomstring')
-const port = process.env.PORT || 3000
+require('dotenv').config({silent: true});
+const express = require('express');
+const simpleOauthModule = require('simple-oauth2');
+const randomstring = require('randomstring');
+const port = process.env.PORT || 3000;
 
-const app = express()
+const app = express();
+// Supply GIT_HOSTNAME for enterprise github installs.
 const oauth2 = simpleOauthModule.create({
   client: {
     id: process.env.OAUTH_CLIENT_ID,
     secret: process.env.OAUTH_CLIENT_SECRET,
   },
   auth: {
-    tokenHost: 'https://github.com',
+    tokenHost: process.env.GIT_HOSTNAME || 'https://github.com',
     tokenPath: '/login/oauth/access_token',
     authorizePath: '/login/oauth/authorize',
   }
-})
+});
 
 // Authorization uri definition
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
@@ -27,7 +28,7 @@ const authorizationUri = oauth2.authorizationCode.authorizeURL({
 // Initial page redirecting to Github
 app.get('/auth', (req, res) => {
   res.redirect(authorizationUri)
-})
+});
 
 // Callback service parsing the authorization token and asking for the access token
 app.get('/callback', (req, res) => {
@@ -65,22 +66,23 @@ app.get('/callback', (req, res) => {
       }
       window.addEventListener("message", recieveMessage, false);
       // Start handshare with parent
-      console.log("Sending message: %o", "github")
+      console.log("Sending message: %o", "github");
       window.opener.postMessage("authorizing:github", "*");
+      console.log("After postMessage");
       })()
-    </script>`
+    </script>`;
     return res.send(script)
   })
-})
+});
 
 app.get('/success', (req, res) => {
   res.send('')
-})
+});
 
 app.get('/', (req, res) => {
   res.send('Hello<br><a href="/auth">Log in with Github</a>')
-})
+});
 
 app.listen(port, () => {
   console.log('gandalf is walkin\' on port ' + port)
-})
+});
