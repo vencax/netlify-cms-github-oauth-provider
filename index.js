@@ -77,10 +77,43 @@ app.get('/success', (req, res) => {
   res.send('')
 })
 
-app.get('/', (req, res) => {
-  res.send('Hello<br><a href="/auth">Log in with Github</a>')
+app.get(['/', '/index.html', '/config.yml'], (req, res, next) => {
+  var options = {
+    root: __dirname + '/',
+    dotfiles: 'deny',
+  };
+
+  var fileName = (req.path) ? req.path : 'index.html';
+  res.sendFile(fileName, options, function (err) {
+    if (err) {
+      next(err);
+    } else {
+      console.log('Sent:', fileName);
+    }
+  });
+})
+
+app.get('/:filename?', (req, res, next) => {
+  if (!req.params.filename) {
+    res.status(404);
+    return next('Not found');
+  }
+
+  var options = {
+    root: __dirname + '/node_modules/netlify-cms/dist/',
+    dotfiles: 'deny',
+  };
+
+  var fileName = req.params.filename;
+  res.sendFile(fileName, options, function (err) {
+    if (err) {
+      next(err);
+    } else {
+      console.log('Sent:', fileName);
+    }
+  });
 })
 
 app.listen(port, () => {
-  console.log('gandalf is walkin\' on port ' + port)
+  console.log('CMS listening on port ' + port)
 })
