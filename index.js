@@ -11,7 +11,8 @@ const oauth2 = simpleOauthModule.create({
     secret: process.env.OAUTH_CLIENT_SECRET,
   },
   auth: {
-    tokenHost: 'https://github.com',
+    // Supply GIT_HOSTNAME for enterprise github installs.
+    tokenHost: process.env.GIT_HOSTNAME || 'https://github.com',
     tokenPath: '/login/oauth/access_token',
     authorizePath: '/login/oauth/authorize',
   }
