@@ -8,13 +8,13 @@ const app = express()
 const oauth2 = simpleOauthModule.create({
   client: {
     id: process.env.OAUTH_CLIENT_ID,
-    secret: process.env.OAUTH_CLIENT_SECRET,
+    secret: process.env.OAUTH_CLIENT_SECRET
   },
   auth: {
     // Supply GIT_HOSTNAME for enterprise github installs.
     tokenHost: process.env.GIT_HOSTNAME || 'https://github.com',
     tokenPath: '/login/oauth/access_token',
-    authorizePath: '/login/oauth/authorize',
+    authorizePath: '/login/oauth/authorize'
   }
 })
 
@@ -22,7 +22,7 @@ const oauth2 = simpleOauthModule.create({
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
   redirect_uri: process.env.REDIRECT_URL,
   scope: process.env.SCOPES || 'repo,user',
-  state: randomstring.generate(32),
+  state: randomstring.generate(32)
 })
 
 // Initial page redirecting to Github
@@ -34,7 +34,7 @@ app.get('/auth', (req, res) => {
 app.get('/callback', (req, res) => {
   const code = req.query.code
   const options = {
-    code
+    code: code
   }
 
   oauth2.authorizationCode.getToken(options, (error, result) => {
@@ -57,17 +57,17 @@ app.get('/callback', (req, res) => {
     <script>
     (function() {
       function recieveMessage(e) {
-        console.log("recieveMessage %o", e);
+        console.log("recieveMessage %o", e)
         // send message to main window with da app
         window.opener.postMessage(
           'authorization:github:${mess}:${JSON.stringify(content)}',
           e.origin
-        );
+        )
       }
-      window.addEventListener("message", recieveMessage, false);
+      window.addEventListener("message", recieveMessage, false)
       // Start handshare with parent
       console.log("Sending message: %o", "github")
-      window.opener.postMessage("authorizing:github", "*");
+      window.opener.postMessage("authorizing:github", "*")
       })()
     </script>`
     return res.send(script)
@@ -83,5 +83,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log('gandalf is walkin\' on port ' + port)
+  console.log("gandalf is walkin' on port " + port)
 })
