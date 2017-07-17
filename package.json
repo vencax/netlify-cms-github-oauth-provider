@@ -1,6 +1,9 @@
 {
   "name": "netlify-cms-github-oauth-provider",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=7.x"
+  },
   "description": "netlify oauth github client sending token in form as netlify service itself",
   "repository": "https://github.com/vencax/netlify-cms-github-oauth-provider",
   "main": "index.js",
