@@ -1,27 +1,47 @@
 require('dotenv').config({silent: true})
+
 const express = require('express')
 const simpleOauthModule = require('simple-oauth2')
 const randomstring = require('randomstring')
-const port = process.env.PORT || 3000
 
+const {
+  OAUTH_CLIENT_ID,
+  OAUTH_CLIENT_SECRET,
+  REDIRECT_URL,
+  OAUTH_AUTHORIZE_PATH,
+  OAUTH_TOKEN_PATH,
+  GIT_HOSTNAME,
+  SCOPES,
+  PORT,
+} = process.env
+
+const DEFAULTS = {
+  GIT_HOSTNAME: 'https://github.com',
+  OAUTH_AUTHORIZE_PATH: '/login/oauth/authorize',
+  PORT: 3000,
+  SCOPES: 'repo,user',
+  TOKEN_PATH: '/login/oauth/access_token',
+}
+
+const port = PORT || DEFAULTS.PORT
 const app = express()
+
 const oauth2 = simpleOauthModule.create({
   client: {
-    id: process.env.OAUTH_CLIENT_ID,
-    secret: process.env.OAUTH_CLIENT_SECRET
+    id: OAUTH_CLIENT_ID,
+    secret: OAUTH_CLIENT_SECRET
   },
   auth: {
-    // Supply GIT_HOSTNAME for enterprise github installs.
-    tokenHost: process.env.GIT_HOSTNAME || 'https://github.com',
-    tokenPath: process.env.OAUTH_TOKEN_PATH || '/login/oauth/access_token',
-    authorizePath: process.env.OAUTH_AUTHORIZE_PATH || '/login/oauth/authorize'
+    tokenHost: GIT_HOSTNAME || DEFAULTS.GIT_HOSTNAME,
+    tokenPath: OAUTH_TOKEN_PATH || DEFAULTS.TOKEN_PATH,
+    authorizePath: OAUTH_AUTHORIZE_PATH ||DEFAULTS.OAUTH_AUTHORIZE_PATH,
   }
 })
 
 // Authorization uri definition
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
-  redirect_uri: process.env.REDIRECT_URL,
-  scope: process.env.SCOPES || 'repo,user',
+  redirect_uri: REDIRECT_URL,
+  scope: SCOPES || DEFAULTS.SCOPES,
   state: randomstring.generate(32)
 })
 
