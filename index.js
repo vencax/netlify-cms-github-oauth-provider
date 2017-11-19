@@ -1,53 +1,13 @@
-require('dotenv').config({silent: true})
+require('dotenv').config({ silent: true })
 
 const express = require('express')
-const simpleOauthModule = require('simple-oauth2')
-const randomstring = require('randomstring')
+const oAuth2Factory = require('./src/oAuth2Factory')
 
-const {
-  OAUTH_CLIENT_ID,
-  OAUTH_CLIENT_SECRET,
-  REDIRECT_URL,
-  /* Sets oAuth authorize path, defaults to Github-specific path */
-  OAUTH_AUTHORIZE_PATH,
-  /* Sets oAuth token path, defaults to Github-specific path */
-  OAUTH_TOKEN_PATH,
-  /* Supply for enterprise Github installs, defaults to Github-specific path */
-  GIT_HOSTNAME,
-  /* Scope names. By default, both 'user' and 'repo' access is needed by netlify-cms */
-  SCOPES,
-  PORT,
-} = process.env
-
-const DEFAULTS = {
-  GIT_HOSTNAME: 'https://github.com',
-  OAUTH_AUTHORIZE_PATH: '/login/oauth/authorize',
-  PORT: 3000,
-  SCOPES: 'repo,user',
-  TOKEN_PATH: '/login/oauth/access_token',
-}
-
-const port = PORT || DEFAULTS.PORT
+const port = process.env.PORT || 3000
 const app = express()
 
-const oauth2 = simpleOauthModule.create({
-  client: {
-    id: OAUTH_CLIENT_ID,
-    secret: OAUTH_CLIENT_SECRET
-  },
-  auth: {
-    tokenHost: GIT_HOSTNAME || DEFAULTS.GIT_HOSTNAME,
-    tokenPath: OAUTH_TOKEN_PATH || DEFAULTS.TOKEN_PATH,
-    authorizePath: OAUTH_AUTHORIZE_PATH ||DEFAULTS.OAUTH_AUTHORIZE_PATH,
-  }
-})
-
-// Authorization uri definition
-const authorizationUri = oauth2.authorizationCode.authorizeURL({
-  redirect_uri: REDIRECT_URL,
-  scope: SCOPES || DEFAULTS.SCOPES,
-  state: randomstring.generate(32)
-})
+const oAuth2 = oAuth2Factory()
+const authorizationUri = oAuth2.getauthorizeURL()
 
 // Initial page redirecting to Github
 app.get('/auth', (req, res) => {
@@ -56,26 +16,10 @@ app.get('/auth', (req, res) => {
 
 // Callback service parsing the authorization token and asking for the access token
 app.get('/callback', (req, res) => {
-  const code = req.query.code
-  const options = {
-    code: code
-  }
+  const { query: { code } } = req
 
-  oauth2.authorizationCode.getToken(options, (error, result) => {
-    let mess, content
-
-    if (error) {
-      console.error('Access Token Error', error.message)
-      mess = 'error'
-      content = JSON.stringify(error)
-    } else {
-      const token = oauth2.accessToken.create(result)
-      mess = 'success'
-      content = {
-        token: token.token.access_token,
-        provider: 'github'
-      }
-    }
+  const sendScript = ({ message, content }) => {
+    console.log(message, content)
 
     const script = `
     <script>
@@ -84,7 +28,7 @@ app.get('/callback', (req, res) => {
         console.log("recieveMessage %o", e)
         // send message to main window with da app
         window.opener.postMessage(
-          'authorization:github:${mess}:${JSON.stringify(content)}',
+          'authorization:github:${message}:${JSON.stringify(content)}',
           e.origin
         )
       }
@@ -94,8 +38,11 @@ app.get('/callback', (req, res) => {
       window.opener.postMessage("authorizing:github", "*")
       })()
     </script>`
+
     return res.send(script)
-  })
+  }
+
+  return oAuth2.getAccessToken(code).then(sendScript)
 })
 
 app.get('/success', (req, res) => {
@@ -107,5 +54,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log("gandalf is walkin' on port " + port)
+  console.log(`gandalf is walkin' on port ${port}`)
 })
