@@ -3,10 +3,10 @@ lib-cov
 *.log
 *.csv
 *.dat
+*.env
 *.out
 *.pid
 *.gz
-.*
 *.sqlite
 pids
 logs
