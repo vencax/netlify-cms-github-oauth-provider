@@ -48,7 +48,7 @@ class OAuth2Client {
       message = CMS_MESSAGE_SUCCESS
     } catch (error) {
       console.error('Access Token Error', error.message)
-      content = JSON.stringify(error)
+      content = error
       message = CMS_MESSAGE_ERROR
     }
 
