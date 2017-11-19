@@ -8,9 +8,13 @@ const {
   OAUTH_CLIENT_ID,
   OAUTH_CLIENT_SECRET,
   REDIRECT_URL,
+  /* Sets oAuth authorize path, defaults to Github-specific path */
   OAUTH_AUTHORIZE_PATH,
+  /* Sets oAuth token path, defaults to Github-specific path */
   OAUTH_TOKEN_PATH,
+  /* Supply for enterprise Github installs, defaults to Github-specific path */
   GIT_HOSTNAME,
+  /* Scope names. By default, both 'user' and 'repo' access is needed by netlify-cms */
   SCOPES,
   PORT,
 } = process.env
