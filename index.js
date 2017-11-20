@@ -1,51 +1,56 @@
 require('dotenv').config({ silent: true })
 
 const express = require('express')
-const exphbs  = require('express-handlebars')
+const exphbs = require('express-handlebars')
 const oAuth2Factory = require('./src/oAuth2Factory')
+const { LABELS } = require('./src/constants')
 
-const port = process.env.PORT || 3000
 const app = express()
 
 app.use(express.static('public'))
 
 const hbs = exphbs.create({
   defaultLayout: 'main',
-  extname: '.hbs',
+  extname: '.hbs'
 })
 
 app.engine('.hbs', hbs.engine)
 app.set('view engine', '.hbs')
 
 const oAuth2 = oAuth2Factory()
-const authorizationUri = oAuth2.getauthorizeURL()
+const authorizationUri = oAuth2.authorizeUrl()
 
 app.get('/', (req, res) => {
+  const providerLabel = LABELS[oAuth2.getProvider()]
+
   res.render('index', {
-    title: 'Netlify Authorization'
+    title: `Netlify ${providerLabel} Authorization`,
+    providerLabel
   })
 })
 
-// Initial page redirecting to Github
 app.get('/auth', (req, res) => {
   res.redirect(authorizationUri)
 })
 
-// Callback service parsing the authorization token and asking for the access token
 app.get('/callback', (req, res) => {
-  const { query: { code } } = req
+  const { query } = req
 
-  const sendScript = ({ message, content }) => {
+  const renderCallback = ({ content, message }) => {
+    const provider = oAuth2.getProvider()
+
     return res.render('callback', {
       content: JSON.stringify(content),
-      message: message,
-      title: 'OAuth Callback'
+      message,
+      provider,
+      title: `${LABELS[provider]} OAuth Callback`
     })
   }
 
-  return oAuth2.getAccessToken(code).then(sendScript)
+  return oAuth2.accessToken(query).then(renderCallback)
 })
 
+const port = process.env.PORT || 3000
 
 app.listen(port, () => {
   console.log(`gandalf is walkin' on port ${port}`)

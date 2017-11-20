@@ -23,7 +23,7 @@ function openAuthPopup (e) {
   }
 
   function handshakeAuth (e) {
-    authPopup.postMessage('authorizing', e.origin)
+    authPopup.postMessage('authorization handshake', '*')
     window.addEventListener('message', receiveAuth)
     window.removeEventListener('message', handshakeAuth)
   }
