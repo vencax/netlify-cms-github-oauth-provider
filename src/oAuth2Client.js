@@ -33,7 +33,7 @@ class OAuth2Client {
   constructErrorResponse (error) {
     const getResponse = err => OAuth2Client.constructResponse(CMS_MESSAGE_ERROR, err)
     if (error && error.message) getResponse(error)
-    return OAuth2Client.constructResponse(CMS_MESSAGE_ERROR, { message: error })
+    return getResponse({ message: error })
   }
 
   getProvider () {
