@@ -1,0 +1,19 @@
+<script>
+  (function() {
+    function receiveMessage (e) {
+      console.log("receiveMessage %o", e)
+
+      window.opener.postMessage(
+        'authorization:{{{provider}}}:{{{message}}}:{{{content}}}',
+        "*"
+      )
+
+      window.removeEventListener("message", receiveMessage, false)
+    }
+
+    window.addEventListener("message", receiveMessage, false)
+    console.log("Sending message: %o", "{{{provider}}}")
+
+    window.opener.postMessage("authorizing:{{{provider}}}", "*")
+    })()
+</script>
