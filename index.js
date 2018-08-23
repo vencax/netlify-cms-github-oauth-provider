@@ -4,6 +4,7 @@ const simpleOauthModule = require('simple-oauth2')
 const randomstring = require('randomstring')
 const port = process.env.PORT || 3000
 const oauth_provider = process.env.OAUTH_PROVIDER || 'github'
+const login_auth_target = process.env.AUTH_TARGET || '_self'
 
 const app = express()
 const oauth2 = simpleOauthModule.create({
@@ -87,7 +88,7 @@ app.get('/success', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-  res.send('Hello<br><a href="/auth" target="_blank">Log in with '+oauth_provider.toUpperCase()+'</a>')
+  res.send('Hello<br><a href="/auth" target="'+login_auth_target+'">Log in with '+oauth_provider.toUpperCase()+'</a>')
 })
 
 app.listen(port, () => {

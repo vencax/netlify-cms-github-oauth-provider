@@ -45,6 +45,13 @@ OAUTH_AUTHORIZE_PATH=/oauth/authorize
 OAUTH_TOKEN_PATH=/oauth/token
 ```
 
+You can also setup an environment variable to configure "_blank" target when auth window is opened. Default is "_self".
+```
+AUTH_TARGET=_blank
+```
+
+
+
 **Client ID & Client Secret:**
 After registering your Oauth app, you will be able to get your client id and client secret on the next page.
 
