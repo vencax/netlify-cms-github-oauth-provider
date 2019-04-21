@@ -91,6 +91,22 @@ app.get('/', (req, res) => {
   res.send('Hello<br><a href="/auth" target="'+login_auth_target+'">Log in with '+oauth_provider.toUpperCase()+'</a>')
 })
 
-app.listen(port, () => {
-  console.log("gandalf is walkin' on port " + port)
-})
+const isInLambda = !!process.env.LAMBDA_TASK_ROOT;
+
+if(isInLambda){
+  
+  const awsServerlessExpress = require('aws-serverless-express');
+  const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
+
+  app.use(awsServerlessExpressMiddleware.eventContext());
+
+  const server = awsServerlessExpress.createServer(app)
+  exports.handler = (event, context) => awsServerlessExpress.proxy(server, event, context);
+  
+}else{
+  
+  app.listen(port, () => {
+    console.log("gandalf is walkin' on port " + port)
+  })
+    
+}

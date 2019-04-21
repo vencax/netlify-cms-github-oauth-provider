@@ -64,12 +64,19 @@ This is only necessary for use with Github Enterprise or Gitlab.
 ### CMS Config
 You also need to add `base_url` to the backend section of your netlify-cms's config file. `base_url` is the live URL of this repo with no trailing slashes.
 
+#### AWS Lambda
+For AWS Lambda environment you need to split your oauth endpoint into base_url and auth_endpoint.
+
+- base_url: hostname
+- auth_endpoint: {aws api gateway stage}/auth
+
 ```
 backend:
   name: [github | gitlab]
   repo: user/repo   # Path to your Github/Gitlab repository
   branch: master    # Branch to update
   base_url: https://your.server.com # Path to ext auth provider
+  auth_endpoint: [stage]/auth
 ```
 
 ## 3) Push
