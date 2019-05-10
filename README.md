@@ -31,11 +31,14 @@ Configuration is done with environment variables, which can be supplied as comma
 
 ```
 NODE_ENV=production
+ORIGIN=www.my_organisation.com
 OAUTH_CLIENT_ID=f432a9casdff1e4b79c57
 OAUTH_CLIENT_SECRET=pampadympapampadympapampadympa
 REDIRECT_URL=https://your.server.com/callback
 GIT_HOSTNAME=https://github.website.com
 ```
+
+__NOTE__: ORIGIN is mandatory and can contain regex (e.g. ```.*.my_organisation.com```)
 
 For Gitlab you also have to provide this environment variables:
 ```
