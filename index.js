@@ -3,8 +3,8 @@ const express = require('express')
 const simpleOauthModule = require('simple-oauth2')
 const randomstring = require('randomstring')
 const port = process.env.PORT || 3000
-const oauth_provider = process.env.OAUTH_PROVIDER || 'github'
-const login_auth_target = process.env.AUTH_TARGET || '_self'
+const oauthProvider = process.env.OAUTH_PROVIDER || 'github'
+const loginAuthTarget = process.env.AUTH_TARGET || '_self'
 
 const app = express()
 const oauth2 = simpleOauthModule.create({
@@ -19,6 +19,15 @@ const oauth2 = simpleOauthModule.create({
     authorizePath: process.env.OAUTH_AUTHORIZE_PATH || '/login/oauth/authorize'
   }
 })
+
+const originPattern = process.env.ORIGIN || ''
+if (('').match(originPattern)) {
+  console.warn('Insecure ORIGIN pattern used. This can give unauthorized users access to your repository.')
+  if (process.env.NODE_ENV === 'production') {
+    console.error('Will not run without a safe ORIGIN pattern in production.')
+    process.exit()
+  }
+}
 
 // Authorization uri definition
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
@@ -39,7 +48,7 @@ app.get('/callback', (req, res) => {
     code: code
   }
 
-  if(oauth_provider==='gitlab'){
+  if (oauthProvider === 'gitlab') {
     options.client_id = process.env.OAUTH_CLIENT_ID
     options.client_secret = process.env.OAUTH_CLIENT_SECRET
     options.grant_type = 'authorization_code'
@@ -58,7 +67,7 @@ app.get('/callback', (req, res) => {
       mess = 'success'
       content = {
         token: token.token.access_token,
-        provider: oauth_provider
+        provider: oauthProvider
       }
     }
 
@@ -67,17 +76,21 @@ app.get('/callback', (req, res) => {
     (function() {
       function recieveMessage(e) {
         console.log("recieveMessage %o", e)
+        if (!e.origin.match(${JSON.stringify(originPattern)})) {
+          console.log('Invalid origin: %s', e.origin);
+          return;
+        }
         // send message to main window with da app
         window.opener.postMessage(
-          'authorization:${oauth_provider}:${mess}:${JSON.stringify(content)}',
+          'authorization:${oauthProvider}:${mess}:${JSON.stringify(content)}',
           e.origin
         )
       }
       window.addEventListener("message", recieveMessage, false)
       // Start handshare with parent
-      console.log("Sending message: %o", "${oauth_provider}")
-      window.opener.postMessage("authorizing:${oauth_provider}", "*")
-      })()
+      console.log("Sending message: %o", "${oauthProvider}")
+      window.opener.postMessage("authorizing:${oauthProvider}", "*")
+    })()
     </script>`
     return res.send(script)
   })
@@ -88,7 +101,10 @@ app.get('/success', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-  res.send('Hello<br><a href="/auth" target="'+login_auth_target+'">Log in with '+oauth_provider.toUpperCase()+'</a>')
+  res.send(`Hello<br>
+    <a href="/auth" target="${loginAuthTarget}">
+      Log in with ${oauthProvider.toUpperCase()}
+    </a>`)
 })
 
 app.listen(port, () => {
