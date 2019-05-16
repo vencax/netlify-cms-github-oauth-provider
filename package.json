@@ -9,7 +9,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "pack": "npm-pack-zip"
   },
   "keywords": [
     "netlify",
@@ -23,5 +24,18 @@
     "express": "^4.15.2",
     "randomstring": "^1.1.5",
     "simple-oauth2": "^1.2.0"
-  }
+  },
+  "optionalDependencies": {
+    "aws-serverless-express": "^3.3.6"
+  },
+  "devDependencies": {
+    "npm-pack-zip": "^1.2.7"
+  },
+  "bundledDependencies": [
+    "aws-serverless-express",
+    "dotenv",
+    "express",
+    "randomstring",
+    "simple-oauth2"
+  ]
 }
