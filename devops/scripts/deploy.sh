@@ -24,8 +24,8 @@ fi
 
 echo 'Deploying...'
 ssh -p $ssh_port $user@$host \
-  "cd $data_path  && mkdir $BRANCH_NAME && tar -zxf $pkg -C $BRANCH_NAME && cd $BRANCH_NAME &&  ls"
-  # "cd $data_path  && mkdir $BRANCH_NAME && tar -zxf $pkg -C $BRANCH_NAME && cd $BRANCH_NAME &&  export OAUTH_CLIENT_ID=$id && export OAUTH_CLIENT_SECRET=$secrety && export ORIGIN=$origin && export NODE_ENV=$node_env && node index.js"
+  "cd $data_path && ls"
+  # "cd $data_path && rm -rf $BRANCH_NAME && mkdir $BRANCH_NAME && tar -zxf $pkg -C $BRANCH_NAME && rm -rf $pkg && cd $BRANCH_NAME &&  export OAUTH_CLIENT_ID=$id && export OAUTH_CLIENT_SECRET=$secrety && export ORIGIN=$"
 
 # Check exit status of previous command
 if [ $? != 0 ]; then

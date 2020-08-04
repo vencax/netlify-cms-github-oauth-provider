@@ -36,21 +36,21 @@ pipeline {
       }
     }
 
-    stage('Get github_oauth') {
-      options {
-        retry(3)
-      }
-      steps {
-        withCredentials([
-          file(credentialsId: 'github.oauth.id', keyFileVariable: 'GITHUB_OAUTH_ID'),
-          file(credentialsId: 'github.oauth.secret', keyFileVariable: 'GITHUB_OAUTH_SECRET')
-        ]) {
-          sh '''
+    // stage('Get github_oauth') {
+    //   options {
+    //     retry(3)
+    //   }
+    //   steps {
+    //     withCredentials([
+    //       file(credentialsId: 'github.oauth.id', keyFileVariable: 'GITHUB_OAUTH_ID'),
+    //       file(credentialsId: 'github.oauth.secret', keyFileVariable: 'GITHUB_OAUTH_SECRET')
+    //     ]) {
+    //       sh '''
            
-          '''
-        }
-      }
-    }
+    //       '''
+    //     }
+    //   }
+    // }
 
 
     stage('Npm istall') {
