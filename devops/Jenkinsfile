@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      image 'ones-product-manual'
+      image 'ones-web-env'
     }
   }
 
