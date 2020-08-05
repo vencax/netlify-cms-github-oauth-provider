@@ -26,7 +26,8 @@ fi
 echo 'Deploying...'
 ssh -p $ssh_port $user@$host \
   "
-  cd $data_path  
+  cd $data_path 
+  pwd 
   rm -rf master 
   mkdir master  
   tar -xvf $pkg -C master  
