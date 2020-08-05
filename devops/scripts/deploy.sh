@@ -39,7 +39,7 @@ ssh -p $ssh_port $user@$host \
   export NODE_ENV=$node_env 
   oauth_pid=`ps -ef | grep "node index.js" | grep -v grep | cut -c 9-15`
   echo $oauth_id
-  nohup node index.js >> local_log 2>&1 & 
+  # nohup node index.js >> local_log 2>&1 & 
   "
 
 # Check exit status of previous command
