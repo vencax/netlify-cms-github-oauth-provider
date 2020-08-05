@@ -37,8 +37,9 @@ ssh -p $ssh_port $user@$host \
   export ORIGIN=$origin 
   export PORT=$port 
   export NODE_ENV=$node_env 
-  oauth_pid=`ps -ef | grep "node index.js" | grep -v grep | cut -c 9-15` 
-  kill -9 $oauth_pid 
+  oauth_pid=`ps -ef | grep "node index.js" | grep -v grep | cut -c 9-15`
+  echo $oauth_id
+  # kill -9 $oauth_pid 
   nohup node index.js >> local_log 2>&1 & 
   "
 
