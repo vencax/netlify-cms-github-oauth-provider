@@ -38,7 +38,7 @@ ssh -p $ssh_port $user@$host \
   export ORIGIN=$origin 
   export PORT=$port 
   export NODE_ENV=$node_env 
-  node index.js 
+  nohup node index.js >> local_log 2>&1 &
   "
 
 # Check exit status of previous command
