@@ -58,15 +58,17 @@ pipeline {
       options {
         retry(3)
       }
-      withCredentials(
-          bindings: [usernamePassword(credentialsId: 'netlify_cms_oauth_secret', \
-                     usernameVariable: 'GITHUB_OAUTH_ID', \
-                     passwordVariable: 'GITHUB_OAUTH_SECRET')
-        ]) {
-          sh '''
-            bash ./devops/scripts/deploy.sh development_online
-          '''
-        }
+      steps{
+        withCredentials(
+            bindings: [usernamePassword(credentialsId: 'netlify_cms_oauth_secret', \
+                      usernameVariable: 'GITHUB_OAUTH_ID', \
+                      passwordVariable: 'GITHUB_OAUTH_SECRET')
+          ]) {
+            sh '''
+              bash ./devops/scripts/deploy.sh development_online
+            '''
+          }
+      }
     }
   }
   post {
