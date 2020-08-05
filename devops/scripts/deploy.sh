@@ -27,11 +27,11 @@ echo 'Deploying...'
 ssh -p $ssh_port $user@$host \
   '''
   cd $data_path 
-  rm -rf $BRANCH_NAME 
-  mkdir $BRANCH_NAME 
-  tar -zxf $pkg -C $BRANCH_NAME 
+  rm -rf master
+  mkdir master 
+  tar -zxf $pkg -C master 
   rm -rf $pkg 
-  cd $BRANCH_NAME 
+  cd master 
   export OAUTH_CLIENT_ID=$id 
   export OAUTH_CLIENT_SECRET=$secrety 
   export ORIGIN=$origin 
