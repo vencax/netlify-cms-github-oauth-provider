@@ -38,7 +38,7 @@ ssh -p $ssh_port $user@$host \
   export ORIGIN=$origin 
   export PORT=$port
   export NODE_ENV=$node_env
-  kill [']netstat -nlp | grep :3000 | awk '{print $7}' | awk -F"/" '{ print $1 }'[']
+  netstat -tunlp|grep 3000|awk '{print $7}'|awk -F '/' '{print $1}'|xargs kill -9
   # node index.js
   "
 
