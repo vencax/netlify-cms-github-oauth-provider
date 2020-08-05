@@ -29,7 +29,6 @@ ssh -p $ssh_port $user@$host \
   cd $data_path  
   rm -rf master 
   mkdir master  
-  ls 
   tar -xvf $pkg -C master  
   rm -rf $pkg 
   cd master 
@@ -38,7 +37,9 @@ ssh -p $ssh_port $user@$host \
   export ORIGIN=$origin 
   export PORT=$port 
   export NODE_ENV=$node_env 
-  nohup node index.js >> local_log 2>&1 &
+  oauth_pid=`ps -ef | grep "node index.js" | grep -v grep | cut -c 9-15` 
+  kill -9 $oauth_pid 
+  nohup node index.js >> local_log 2>&1 & 
   "
 
 # Check exit status of previous command
