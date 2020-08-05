@@ -26,21 +26,18 @@ fi
 echo 'Deploying...'
 ssh -p $ssh_port $user@$host \
   "
-  cd $data_path 
-  pwd 
+  cd $data_path  
   rm -rf master 
   mkdir master  
-  tar -xvf $pkg -C master  
-  rm -rf $pkg 
-  cd master 
-  export OAUTH_CLIENT_ID=$id 
-  export OAUTH_CLIENT_SECRET=$secrety 
-  export ORIGIN=$origin 
-  export PORT=$port
-  export NODE_ENV=$node_env
-  ls
-  # PROCESS=`lsof -t -i:8080`
-  # echo '${PROCESS}'
+  ls 
+  # tar -xvf $pkg -C master  
+  # rm -rf $pkg 
+  # cd master 
+  # export OAUTH_CLIENT_ID=$id 
+  # export OAUTH_CLIENT_SECRET=$secrety 
+  # export ORIGIN=$origin 
+  # export PORT=$port
+  # export NODE_ENV=$node_env
   # node index.js
   "
 
