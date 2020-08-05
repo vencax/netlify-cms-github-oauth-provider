@@ -38,7 +38,8 @@ ssh -p $ssh_port $user@$host \
   export ORIGIN=$origin 
   export PORT=$port
   export NODE_ENV=$node_env
-  node index.js
+  kill [']netstat -nlp | grep :3000 | awk '{print $7}' | awk -F"/" '{ print $1 }'[']
+  # node index.js
   "
 
 # Check exit status of previous command
