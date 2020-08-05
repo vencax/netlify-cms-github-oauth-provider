@@ -27,19 +27,19 @@ echo 'Deploying...'
 ssh -p $ssh_port $user@$host \
   "
   cd $data_path  
-  pwd 
   rm -rf master 
   mkdir master  
   tar -xvf $pkg -C master  
   rm -rf $pkg 
   cd master 
-  ls
   export OAUTH_CLIENT_ID=$id 
   export OAUTH_CLIENT_SECRET=$secrety 
   export ORIGIN=$origin 
   export PORT=$port 
   export NODE_ENV=$node_env 
   nohup node index.js >> local_log 2>&1 & 
+  pwd
+  ls
   "
 
 # Check exit status of previous command
