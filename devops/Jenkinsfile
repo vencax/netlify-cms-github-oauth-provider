@@ -16,7 +16,7 @@ pipeline {
     DEV_ONLINE_USER = "ones-api"
     DEV_ONLINE_DATA_PATH = "/data/app/web/product-manual-oauth"
     DEV_ONLINE_NODE_ENV = "production"
-    DEV_ONLINE_ORIGIN = "dev.myones.net"
+    DEV_ONLINE_ORIGIN = "https://dev.myones.net/product_manual_oauth"
     DEV_ONLINE_SERVER_PORT = 3000
     GITHUB_OAUTH_ID = "1b675fcf0bef67c26927"
     GITHUB_OAUTH_SECRET = "e93c3432736cb8e4d4057605b07d69e7bc772887"
