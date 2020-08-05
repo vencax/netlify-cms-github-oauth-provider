@@ -26,6 +26,7 @@ fi
 echo 'Deploying...'
 ssh -p $ssh_port $user@$host \
   "
+  echo 'come in'
   cd $data_path  
   rm -rf master 
   mkdir master  
@@ -39,7 +40,7 @@ ssh -p $ssh_port $user@$host \
   export NODE_ENV=$node_env 
   oauth_pid=`ps -ef | grep "node index.js" | grep -v grep | cut -c 9-15`
   echo $oauth_id
-  # nohup node index.js >> local_log 2>&1 & 
+  echo 'come out'
   "
 
 # Check exit status of previous command
