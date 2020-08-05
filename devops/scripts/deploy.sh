@@ -29,15 +29,16 @@ ssh -p $ssh_port $user@$host \
   cd $data_path  
   rm -rf master
   mkdir master 
-  tar -zxf $pkg -C master 
-  rm -rf $pkg 
-  cd master 
-  export OAUTH_CLIENT_ID=$id 
-  export OAUTH_CLIENT_SECRET=$secrety 
-  export ORIGIN=$origin 
-  export PORT=$port
-  export NODE_ENV=$node_env
-  node index.js
+  ls
+  # tar -zxf $pkg -C master 
+  # rm -rf $pkg 
+  # cd master 
+  # export OAUTH_CLIENT_ID=$id 
+  # export OAUTH_CLIENT_SECRET=$secrety 
+  # export ORIGIN=$origin 
+  # export PORT=$port
+  # export NODE_ENV=$node_env
+  # node index.js
   "
 
 # Check exit status of previous command
