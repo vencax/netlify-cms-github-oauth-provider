@@ -38,7 +38,7 @@ ssh -p $ssh_port $user@$host \
   export ORIGIN=$origin 
   export PORT=$port
   export NODE_ENV=$node_env
-  temp_pid=netstat -tunlp|grep 3000|awk '{print $7}'|awk -F '/' '{print $1}'
+  temp_pid=$(netstat -tlnp | grep :3000 | awk '{print $7}' | awk -F '/' '{print $1}')
   echo $temp_pid
   # node index.js
   "
