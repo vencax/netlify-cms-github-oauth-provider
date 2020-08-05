@@ -39,7 +39,7 @@ ssh -p $ssh_port $user@$host \
   export NODE_ENV=$node_env
   ls
   PROCESS=`lsof -t -i:8080`
-  echo ${PROCESS}
+  echo '${PROCESS}'
   # node index.js
   "
 
