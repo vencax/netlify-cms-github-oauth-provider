@@ -17,6 +17,8 @@ pipeline {
     DEV_ONLINE_DATA_PATH = "/data/app/web/product-manual-oauth"
     DEV_ONLINE_NODE_ENV = "production"
     DEV_ONLINE_ORIGIN = "product-manual"
+    GITHUB_OAUTH_ID = credentials('github.oauth.id')
+    GITHUB_OAUTH_SECRET = credentials('github.oauth.secret')
   }
 
   stages {
@@ -35,22 +37,6 @@ pipeline {
         }
       }
     }
-
-    // stage('Get github_oauth') {
-    //   options {
-    //     retry(3)
-    //   }
-    //   steps {
-    //     withCredentials([
-    //       file(credentialsId: 'github.oauth.id', keyFileVariable: 'GITHUB_OAUTH_ID'),
-    //       file(credentialsId: 'github.oauth.secret', keyFileVariable: 'GITHUB_OAUTH_SECRET')
-    //     ]) {
-    //       sh '''
-           
-    //       '''
-    //     }
-    //   }
-    // }
 
 
     stage('Npm istall') {

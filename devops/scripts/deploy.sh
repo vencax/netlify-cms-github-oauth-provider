@@ -5,10 +5,11 @@ host=$DEV_ONLINE_HOST
 ssh_port=$DEV_ONLINE_SSH_PORT
 user=$DEV_ONLINE_USER
 data_path=$DEV_ONLINE_DATA_PATH
-id=$GITHUB_OAUTH_ID
-secrety=$GITHUB_OAUTH_SECRET
+# id=$GITHUB_OAUTH_ID
+# secrety=$GITHUB_OAUTH_SECRET
 node_env=$DEV_ONLINE_NODE_ENV
 origin=$DEV_ONLINE_ORIGIN
+port=$DEV_ONLINE_SERVER_PORT
 
 
 pkg="netlify-cms-github-oauth-provider-$BRANCH_NAME-assets.tar.gz"
@@ -24,8 +25,20 @@ fi
 
 echo 'Deploying...'
 ssh -p $ssh_port $user@$host \
-  "cd $data_path && ls"
-  # "cd $data_path && rm -rf $BRANCH_NAME && mkdir $BRANCH_NAME && tar -zxf $pkg -C $BRANCH_NAME && rm -rf $pkg && cd $BRANCH_NAME &&  export OAUTH_CLIENT_ID=$id && export OAUTH_CLIENT_SECRET=$secrety && export ORIGIN=$"
+  '''
+  cd $data_path 
+  && rm -rf $BRANCH_NAME 
+  && mkdir $BRANCH_NAME 
+  && tar -zxf $pkg -C $BRANCH_NAME 
+  && rm -rf $pkg 
+  && cd $BRANCH_NAME 
+  && export OAUTH_CLIENT_ID=$id 
+  && export OAUTH_CLIENT_SECRET=$secrety 
+  && export ORIGIN=$origin 
+  && export PORT=$port
+  && export NODE_ENV=$node_env
+  && node index.js
+  '''
 
 # Check exit status of previous command
 if [ $? != 0 ]; then
