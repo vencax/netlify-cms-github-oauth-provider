@@ -26,21 +26,20 @@ fi
 echo 'Deploying...'
 ssh -p $ssh_port $user@$host \
   "
-  echo 'come in'
   cd $data_path  
+  pwd 
   rm -rf master 
   mkdir master  
   tar -xvf $pkg -C master  
   rm -rf $pkg 
   cd master 
+  ls
   export OAUTH_CLIENT_ID=$id 
   export OAUTH_CLIENT_SECRET=$secrety 
   export ORIGIN=$origin 
   export PORT=$port 
   export NODE_ENV=$node_env 
-  oauth_pid=`ps -ef | grep "node index.js" | grep -v grep | cut -c 9-15`
-  echo $oauth_id
-  echo 'come out'
+  nohup node index.js >> local_log 2>&1 & 
   "
 
 # Check exit status of previous command
