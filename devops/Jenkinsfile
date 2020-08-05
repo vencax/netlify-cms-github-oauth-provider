@@ -61,9 +61,7 @@ pipeline {
         retry(3)
       }
       steps {
-          sh '''
-            "bash ./devops/scripts/deploy.sh development_online"
-          '''
+          sh "bash ./devops/scripts/deploy.sh development_online"
       }
     }
   }
