@@ -1,28 +1,15 @@
 {
-  "name": "netlify-cms-github-oauth-provider",
+  "name": "netlify-cms-now",
+  "author": "Robin Pokorny <me@robinpokorny.com>",
   "version": "1.0.0",
-  "engines": {
-    "node": ">=7.x"
-  },
-  "description": "netlify oauth github client sending token in form as netlify service itself",
-  "repository": "https://github.com/vencax/netlify-cms-github-oauth-provider",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
-  },
-  "keywords": [
-    "netlify",
-    "cms",
-    "auth"
-  ],
-  "author": "Vaclav Klecanda <vencax77@gmail.com>",
   "license": "MIT",
+  "private": true,
   "dependencies": {
-    "dotenv": "^2.0.0",
-    "express": "^4.15.2",
+    "@types/simple-oauth2": "^2.5.2",
     "heroku": "^7.47.0",
-    "randomstring": "^1.1.5",
-    "simple-oauth2": "^1.2.0"
+    "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^2.6.1",
+    "simple-oauth2": "^2.5.2",
+    "url": "^0.11.0"
   }
 }
