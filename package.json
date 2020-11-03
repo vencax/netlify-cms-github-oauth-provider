@@ -5,11 +5,11 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@types/simple-oauth2": "^2.5.2",
+    "@types/simple-oauth2": "4.1.0",
     "heroku": "^7.47.0",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.1",
-    "simple-oauth2": "^2.5.2",
+    "simple-oauth2": "4.1.0",
     "url": "^0.11.0"
   }
 }
