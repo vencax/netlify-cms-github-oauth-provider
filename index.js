@@ -1,12 +1,15 @@
-require('dotenv').config({silent: true})
-const express = require('express')
 const simpleOauthModule = require('simple-oauth2')
 const randomstring = require('randomstring')
-const port = process.env.PORT || 3000
 const oauthProvider = process.env.OAUTH_PROVIDER || 'github'
 const loginAuthTarget = process.env.AUTH_TARGET || '_self'
 
-const app = express()
+module.exports = {
+  auth: authMiddleWare,
+  callback: callbackMiddleWare,
+  success: (req, res) => { res.send('') },
+  index: indexMiddleWare
+}
+
 const oauth2 = simpleOauthModule.create({
   client: {
     id: process.env.OAUTH_CLIENT_ID,
@@ -36,13 +39,11 @@ const authorizationUri = oauth2.authorizationCode.authorizeURL({
   state: randomstring.generate(32)
 })
 
-// Initial page redirecting to Github
-app.get('/auth', (req, res) => {
+function authMiddleWare (req, res, next) {
   res.redirect(authorizationUri)
-})
+}
 
-// Callback service parsing the authorization token and asking for the access token
-app.get('/callback', (req, res) => {
+function callbackMiddleWare (req, res, next) {
   const code = req.query.code
   var options = {
     code: code
@@ -94,19 +95,11 @@ app.get('/callback', (req, res) => {
     </script>`
     return res.send(script)
   })
-})
+}
 
-app.get('/success', (req, res) => {
-  res.send('')
-})
-
-app.get('/', (req, res) => {
+function indexMiddleWare (req, res) {
   res.send(`Hello<br>
     <a href="/auth" target="${loginAuthTarget}">
       Log in with ${oauthProvider.toUpperCase()}
     </a>`)
-})
-
-app.listen(port, () => {
-  console.log("gandalf is walkin' on port " + port)
-})
+}
