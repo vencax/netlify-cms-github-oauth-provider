@@ -26,7 +26,7 @@ function indexMiddleWare (req, res) {
 
 module.exports = {
   auth: authMiddleWareInit(oauth2),
-  callback: callbackMiddleWareInit(oauth2),
+  callback: callbackMiddleWareInit(oauth2, oauthProvider),
   success: (req, res) => { res.send('') },
   index: indexMiddleWare
 }
