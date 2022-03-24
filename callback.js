@@ -1,5 +1,5 @@
-const originPattern = process.env.ORIGIN || ''
-if (('').match(originPattern)) {
+const originPattern = process.env.ORIGIN
+if (originPattern == undefined) {
   console.warn('Insecure ORIGIN pattern used. This can give unauthorized users access to your repository.')
   if (process.env.NODE_ENV === 'production') {
     console.error('Will not run without a safe ORIGIN pattern in production.')
@@ -40,9 +40,17 @@ module.exports = (oauth2, oauthProvider) => {
       const script = `
       <script>
       (function() {
+        function contains(arr, elem) {
+          for (var i = 0; i < arr.length; i++) {
+            if (arr[i] === elem) {
+              return true;
+            }
+          }
+          return false;
+        }
         function recieveMessage(e) {
           console.log("recieveMessage %o", e)
-          if (!e.origin.match(${JSON.stringify(originPattern)})) {
+          if (!contains(${originPattern}, e.origin.replace('https://', 'http://').replace('http://', ''))) {
             console.log('Invalid origin: %s', e.origin);
             return;
           }

@@ -31,7 +31,7 @@ Configuration is done with environment variables, which can be supplied as comma
 
 ```ini
 NODE_ENV=production
-ORIGIN=www.my_organisation.com
+ORIGIN=['www.my_organisation.com','www.my_organisation_second.com']
 OAUTH_CLIENT_ID=f432a9casdff1e4b79c57
 OAUTH_CLIENT_SECRET=pampadympapampadympapampadympa
 REDIRECT_URL=https://your.server.com/callback
