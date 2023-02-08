@@ -16,5 +16,5 @@ app.get('/success', middleWarez.success)
 app.get('/', middleWarez.index)
 
 app.listen(port, () => {
-  console.log("gandalf is walkin' on port " + port)
+  console.log("Netlify CMS OAuth provider listening on port " + port)
 })
