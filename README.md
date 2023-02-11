@@ -31,7 +31,7 @@ Configuration is done with environment variables, which can be supplied as comma
 
 ```ini
 NODE_ENV=production
-ORIGIN=www.my_organisation.com
+ORIGINS=www.my_organisation.com,www.my_organisation_second.com
 OAUTH_CLIENT_ID=f432a9casdff1e4b79c57
 OAUTH_CLIENT_SECRET=pampadympapampadympapampadympa
 REDIRECT_URL=https://your.server.com/callback
@@ -39,7 +39,7 @@ GIT_HOSTNAME=https://github.website.com
 PORT=3000
 ```
 
-__NOTE__: ORIGIN is mandatory and can contain regex (e.g. ```.*.my_organisation.com```)
+__NOTE__: ORIGINS is mandatory and can contain regex (e.g. ```.*.my_organisation.com```)
 
 For Gitlab you also have to provide this environment variables:
 ```ini
@@ -91,7 +91,7 @@ npm start
 
 Or with commandline provided variables like so:
 ```bash
-PORT=3111 NODE_ENV=production ORIGIN=www.my_organisation.com OAUTH_CLIENT_ID=... OAUTH_CLIENT_SECRET=... npm start
+PORT=3111 NODE_ENV=production ORIGINS=www.my_organisation.com OAUTH_CLIENT_ID=... OAUTH_CLIENT_SECRET=... npm start
 ```
 
 If running behind reverse-proxy (e.g. nginx), the `/auth` and `/callback` paths need to be proxied, e.g. like so:
@@ -130,7 +130,7 @@ WorkingDirectory=/opt/netlify-cms-github-oauth-provider
 ExecStart=/usr/bin/npm run start
 Restart=always
 Environment=PORT=3111
-Environment=ORIGIN=www.my_organisation.com
+Environment=ORIGINS=www.my_organisation.com
 Environment=OAUTH_CLIENT_ID=...
 Environment=OAUTH_CLIENT_SECRET=...
 

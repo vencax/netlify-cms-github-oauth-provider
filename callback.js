@@ -1,11 +1,11 @@
-const originPattern = process.env.ORIGIN || ''
-if (('').match(originPattern)) {
-  console.warn('Insecure ORIGIN pattern used. This can give unauthorized users access to your repository.')
-  if (process.env.NODE_ENV === 'production') {
-    console.error('Will not run without a safe ORIGIN pattern in production.')
-    process.exit()
-  }
+const REQUIRED_ORIGIN_PATTERN = 
+  /^((\*|([\w_-]{2,}))\.)*(([\w_-]{2,})\.)+(\w{2,})(\,((\*|([\w_-]{2,}))\.)*(([\w_-]{2,})\.)+(\w{2,}))*$/
+
+if (!process.env.ORIGINS.match(REQUIRED_ORIGIN_PATTERN)) {
+  throw new Error('process.env.ORIGIN MUST be comma separated list \
+    of origins that login can succeed on.')
 }
+const origins = process.env.ORIGINS.split(',')
 
 module.exports = (oauth2, oauthProvider) => {
   function callbackMiddleWare (req, res, next) {
@@ -40,9 +40,17 @@ module.exports = (oauth2, oauthProvider) => {
       const script = `
       <script>
       (function() {
+        function contains(arr, elem) {
+          for (var i = 0; i < arr.length; i++) {
+            if (arr[i] === elem) {
+              return true;
+            }
+          }
+          return false;
+        }
         function recieveMessage(e) {
           console.log("recieveMessage %o", e)
-          if (!e.origin.match(${JSON.stringify(originPattern)})) {
+          if (!contains(${JSON.stringify(origins)}, e.origin.replace('https://', 'http://').replace('http://', ''))) {
             console.log('Invalid origin: %s', e.origin);
             return;
           }
