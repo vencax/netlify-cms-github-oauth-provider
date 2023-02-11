@@ -23,6 +23,6 @@
     "dotenv": "^16",
     "express": "^4.15.2",
     "randomstring": "^1.2",
-    "simple-oauth2": "^2"
+    "simple-oauth2": "^5"
   }
 }
