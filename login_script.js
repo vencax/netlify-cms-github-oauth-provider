@@ -13,8 +13,16 @@ module.exports = (oauthProvider, message, content) => `
 (function() {
   function contains(arr, elem) {
     for (var i = 0; i < arr.length; i++) {
-      if (arr[i] === elem) {
-        return true;
+      if (arr[i].indexOf('*') >= 0) {
+        const regex = new RegExp(arr[i].replaceAll('.', '\\\\.').replaceAll('*', '[\\\\w_-]+'))
+        console.log(regex)
+        if (elem.match(regex) !== null) {
+          return true;
+        }
+      } else {
+        if (arr[i] === elem) {
+          return true;
+        }
       }
     }
     return false;
